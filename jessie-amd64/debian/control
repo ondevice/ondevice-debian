@@ -11,5 +11,5 @@ Pre-Depends: dpkg (>= 1.15), python3.4, ${misc:Pre-Depends}
 Depends: ${python:Depends}, ${misc:Depends}
 Description: official ondevice.io client
  See https://ondevice.io/ for details
- 
+ .
  This is the ondevice client for debian jessie (using python3.4)
