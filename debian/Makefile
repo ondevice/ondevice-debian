@@ -8,6 +8,8 @@ build-jessie-amd64: _build-jessie-amd64
 build-jessie-i386: _build-jessie-i386
 build-wheezy-amd64: _build-wheezy-amd64
 build-wheezy-i386: _build-wheezy-i386
+build-squeeze-amd64: _build-squeeze-amd64
+build-squeeze-i386: _build-squeeze-i386
 build-meta: _build-meta
 
 _build-%:
