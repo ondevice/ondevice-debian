@@ -1,10 +1,8 @@
-FROM ubuntu:precise
+FROM vicamo/debian:jessie-i386
 
 WORKDIR /tmp/build/
 
-RUN sed -i 's/main$/main restricted universe/' /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
-RUN apt-get update && apt-get -y install devscripts python-virtualenv git equivs python-dev
+RUN apt-get update && apt-get -y install devscripts python-virtualenv python3-virtualenv git equivs python3-dev
 
 # build and install dh-virtualenv
 # TODO use the prepackaged version
@@ -14,12 +12,12 @@ RUN mk-build-deps -r -i -t 'apt-get -y'
 RUN dpkg-buildpackage -us -uc -b
 RUN dpkg -i ../dh-virtualenv_*.deb
 
-# build and package ondevice (install to /opt/ondevice/)
+# build and package ondevice (install to /usr/lib/ondevice/)
 RUN git clone https://github.com/ondevice/ondevice-client.git /tmp/build/ondevice/
 WORKDIR /tmp/build/ondevice/
-ENV DH_VIRTUALENV_INSTALL_ROOT=/opt/
+ENV DH_VIRTUALENV_INSTALL_ROOT=/usr/lib/
 COPY debian /tmp/build/ondevice/debian
 
 RUN dpkg-buildpackage -us -uc
 
-RUN tar cfz /tmp/build.tgz ../ondevice_*.deb
+RUN tar cfz /tmp/build.tgz ../ondevice-python3.4_*.deb

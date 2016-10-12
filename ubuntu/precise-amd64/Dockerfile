@@ -1,4 +1,4 @@
-FROM mpasternacki/ubuntu-precise-i386:minbase
+FROM ubuntu:precise
 
 WORKDIR /tmp/build/
 
@@ -14,10 +14,10 @@ RUN mk-build-deps -r -i -t 'apt-get -y'
 RUN dpkg-buildpackage -us -uc -b
 RUN dpkg -i ../dh-virtualenv_*.deb
 
-# build and package ondevice (install to /opt/ondevice/)
+# build and package ondevice (install to /usr/lib/ondevice/)
 RUN git clone https://github.com/ondevice/ondevice-client.git /tmp/build/ondevice/
 WORKDIR /tmp/build/ondevice/
-ENV DH_VIRTUALENV_INSTALL_ROOT=/opt/
+ENV DH_VIRTUALENV_INSTALL_ROOT=/usr/lib/
 COPY debian /tmp/build/ondevice/debian
 
 RUN dpkg-buildpackage -us -uc
