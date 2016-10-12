@@ -6,6 +6,7 @@ RUN apt-get update && apt-get -y install devscripts python-virtualenv python3-vi
 
 # build the ondevice meta package
 WORKDIR /tmp/build/ondevice/
+COPY _sharedDebian/ /tmp/build/ondevice/debian
 COPY debian /tmp/build/ondevice/debian
 
 RUN dpkg-buildpackage -us -uc
