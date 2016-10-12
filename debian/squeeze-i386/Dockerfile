@@ -28,4 +28,4 @@ COPY debian /tmp/build/ondevice/debian
 
 RUN dpkg-buildpackage -us -uc
 
-RUN tar cfz /tmp/build.tgz ../ondevice_*.deb
+RUN tar cfz /tmp/build.tgz ../ondevice-python2.6_*.deb
