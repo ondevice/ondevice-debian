@@ -2,8 +2,6 @@ FROM vicamo/ubuntu:precise-i386
 
 WORKDIR /tmp/build/
 
-#RUN sed -i 's/main$/main restricted universe/' /etc/apt/sources.list
-#RUN cat /etc/apt/sources.list
 RUN apt-get update && apt-get -y install devscripts python-virtualenv git equivs python-dev
 
 # build and install dh-virtualenv

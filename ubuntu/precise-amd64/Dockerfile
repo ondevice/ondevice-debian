@@ -2,8 +2,6 @@ FROM ubuntu:precise
 
 WORKDIR /tmp/build/
 
-RUN sed -i 's/main$/main restricted universe/' /etc/apt/sources.list
-RUN cat /etc/apt/sources.list
 RUN apt-get update && apt-get -y install devscripts python-virtualenv git equivs python-dev
 
 # build and install dh-virtualenv
@@ -18,8 +16,9 @@ RUN dpkg -i ../dh-virtualenv_*.deb
 RUN git clone https://github.com/ondevice/ondevice-client.git /tmp/build/ondevice/
 WORKDIR /tmp/build/ondevice/
 ENV DH_VIRTUALENV_INSTALL_ROOT=/usr/lib/
+COPY _sharedDebian/ /tmp/build/ondevice/debian
 COPY debian /tmp/build/ondevice/debian
 
 RUN dpkg-buildpackage -us -uc
 
-RUN tar cfz /tmp/build.tgz ../ondevice_*.deb
+RUN tar cfz /tmp/build.tgz ../ondevice-python2.7_*.deb
