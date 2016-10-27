@@ -4,7 +4,7 @@
 #
 
 DEBIAN_CODENAMES="squeeze wheezy jessie"
-UBUNTU_CODENAMES="precise trusty xenial"
+UBUNTU_CODENAMES="lucid precise trusty xenial"
 
 # prints the first input path that exists (or exits 1 on error)
 _findCmd() {
