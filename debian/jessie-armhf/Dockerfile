@@ -14,6 +14,7 @@ RUN dpkg -i ../dh-virtualenv_*.deb
 
 # build and package ondevice (install to /usr/lib/ondevice/)
 RUN git clone https://github.com/ondevice/ondevice-client.git /tmp/build/ondevice/
+RUN git checkout stable
 WORKDIR /tmp/build/ondevice/
 ENV DH_VIRTUALENV_INSTALL_ROOT=/usr/lib/
 COPY _sharedDebian/ /tmp/build/ondevice/debian
