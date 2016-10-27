@@ -18,7 +18,7 @@ _build-%:
 	mkdir -p 'target/$*'
 
 	$(eval TMPFILE := $(shell mktemp))
-	id=$$(docker create 'ondevice/build-$*'); docker cp $$id:/tmp/build.tgz '$(TMPFILE)'; docker rm -v "$$id"
+	id=$$(docker create 'ondevice/build-$*' /bin/false); docker cp $$id:/tmp/build.tgz '$(TMPFILE)'; docker rm -v "$$id"
 	cd 'target/$*'; tar xfz '$(TMPFILE)'
 	rm '$(TMPFILE)'
 
