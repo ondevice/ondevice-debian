@@ -6,6 +6,7 @@ all:
 # explicitly state the targets for autocomplete to work
 build-jessie-amd64: _build-jessie-amd64
 build-jessie-i386: _build-jessie-i386
+build-jessie-armhf: _build-jessie-armhf
 
 build-wheezy-amd64: _build-wheezy-amd64
 build-wheezy-i386: _build-wheezy-i386
