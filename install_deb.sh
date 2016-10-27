@@ -106,7 +106,8 @@ addAptRepo() {
 
 installOndevice() {
 	echo '-- installing ondevice package' >&2
-	apt-get update && apt-get install -y ondevice
+	apt-get update || true
+	apt-get install -y ondevice
 }
 
 # fail early if we can't figure out the distro details
