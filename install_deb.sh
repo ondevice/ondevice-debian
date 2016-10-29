@@ -41,6 +41,8 @@ _detectDistro() {
 		return 0 # already detected
 	elif [ debian == "$distro" ]; then
 		DISTRO=debian
+	elif [ raspbian == "$distro" ]; then
+		DISTRO=debian
 	elif [ ubuntu == "$distro" ]; then
 		DISTRO=ubuntu
 	else
