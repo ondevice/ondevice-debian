@@ -92,7 +92,7 @@ _detectCodename() {
 #}
 
 addAptKey() {
-	curl http://repo.ondevice.io/ondevice.key | apt-key add -
+	curl -sSL https://repo.ondevice.io/ondevice.key | apt-key add -
 }
 
 addAptRepo() {
