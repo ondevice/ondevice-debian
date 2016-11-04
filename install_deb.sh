@@ -3,8 +3,9 @@
 # installs the ondevice client on debian based systems
 #
 
-DEBIAN_CODENAMES="squeeze wheezy jessie"
-UBUNTU_CODENAMES="lucid precise trusty xenial"
+DEBIAN_CODENAMES="squeeze wheezy jessie stretch"
+RASPBIAN_CODENAMES="jessie"
+UBUNTU_CODENAMES="lucid precise trusty xenial yakkety zesty"
 
 # prints the first input path that exists (or exits 1 on error)
 _findCmd() {
@@ -42,7 +43,7 @@ _detectDistro() {
 	elif [ debian == "$distro" ]; then
 		DISTRO=debian
 	elif [ raspbian == "$distro" ]; then
-		DISTRO=debian
+		DISTRO=raspbian
 	elif [ ubuntu == "$distro" ]; then
 		DISTRO=ubuntu
 	else
@@ -69,6 +70,14 @@ _detectCodename() {
 	elif [ debian == "$DISTRO" ]; then
 		# fetch the distribution from /etc/apt/sources.list
 		for codename in $DEBIAN_CODENAMES; do
+			if grep '^deb ' /etc/apt/sources.list|cut '-d ' -f3|grep -q "^$codename$"; then
+				CODENAME="$codename"
+				break
+			fi
+		done
+	elif [ raspbian == "$DISTRO" ]; then
+		# fetch the distribution from /etc/apt/sources.list
+		for codename in $RASPBIAN_CODENAMES; do
 			if grep '^deb ' /etc/apt/sources.list|cut '-d ' -f3|grep -q "^$codename$"; then
 				CODENAME="$codename"
 				break
