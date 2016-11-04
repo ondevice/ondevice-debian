@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian:jessie
+FROM sdhibit/rpi-raspbian:jessie
 
 WORKDIR /tmp/build/
 
