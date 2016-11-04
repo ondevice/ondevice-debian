@@ -4,6 +4,10 @@ all:
 
 
 # explicitly state the targets for autocomplete to work
+build-stretch-amd64: _build-stretch-amd64
+build-stretch-i386: _build-stretch-i386
+build-stretch-armhf: _build-stretch-armhf
+
 build-jessie-amd64: _build-jessie-amd64
 build-jessie-i386: _build-jessie-i386
 build-jessie-armhf: _build-jessie-armhf
@@ -23,4 +27,5 @@ _build-%:
 	id=$$(docker create 'ondevice/build-$*' /bin/false); docker cp $$id:/tmp/build.tgz '$(TMPFILE)'; docker rm -v "$$id"
 	cd 'target/$*'; tar xfz '$(TMPFILE)'
 	rm '$(TMPFILE)'
+	rm -rf '$*/_sharedDebian/'
 
