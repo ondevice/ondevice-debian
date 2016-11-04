@@ -6,7 +6,6 @@ all:
 # explicitly state the targets for autocomplete to work
 build-stretch-amd64: _build-stretch-amd64
 build-stretch-i386: _build-stretch-i386
-build-stretch-armhf: _build-stretch-armhf
 
 build-jessie-amd64: _build-jessie-amd64
 build-jessie-i386: _build-jessie-i386
