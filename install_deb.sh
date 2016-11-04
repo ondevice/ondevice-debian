@@ -5,7 +5,7 @@
 
 DEBIAN_CODENAMES="squeeze wheezy jessie stretch"
 RASPBIAN_CODENAMES="jessie"
-UBUNTU_CODENAMES="lucid precise trusty xenial yakkety zesty"
+UBUNTU_CODENAMES="lucid precise trusty xenial yakkety"
 
 # prints the first input path that exists (or exits 1 on error)
 _findCmd() {
