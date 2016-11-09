@@ -1,7 +1,9 @@
-#!/bin/bash -e
+#!/bin/bash
 #
 # installs the ondevice client on debian based systems
 #
+
+set -e
 
 DEBIAN_CODENAMES="squeeze wheezy jessie stretch"
 RASPBIAN_CODENAMES="jessie"
