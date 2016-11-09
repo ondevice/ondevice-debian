@@ -1,0 +1,15 @@
+Source: ondevice
+Section: python
+Priority: extra
+Maintainer: ondevice.io team <info@ondevice.io>
+Build-Depends: debhelper (>= 6)
+Standards-Version: 3.9.5
+
+Package: ondevice-daemon
+Architecture: all
+Pre-Depends: dpkg (>= 1.15)
+Depends: ondevice (= ${binary:Version})
+Description: ondevice.io daemon
+ Sets up `ondevice daemon` as a system daemon.
+ .
+ see https://ondevice.io/ for further details
