@@ -14,6 +14,8 @@ RUN mk-build-deps -r -i -t 'apt-get -y'
 RUN dpkg-buildpackage -us -uc -b
 RUN dpkg -i ../dh-virtualenv_*.deb
 
+COPY .nocache /tmp/
+
 # build and package ondevice (install to /usr/lib/ondevice/)
 RUN git clone https://github.com/ondevice/ondevice-client.git /tmp/build/ondevice/
 WORKDIR /tmp/build/ondevice/

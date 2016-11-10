@@ -13,6 +13,7 @@ build-precise-i386: _build-precise-i386
 build-precise-amd64: _build-precise-amd64
 
 _build-%:
+	date > '$*/.nocache'
 	cp -a ../_shared/ '$*/_sharedDebian'
 	cd '$*'; docker build -t 'ondevice/build-$*' .
 	mkdir -p 'target/$*'
@@ -20,5 +21,6 @@ _build-%:
 	$(eval TMPFILE := $(shell mktemp))
 	id=$$(docker create 'ondevice/build-$*' /bin/false); docker cp $$id:/tmp/build.tgz '$(TMPFILE)'; docker rm -v "$$id"
 	cd 'target/$*'; tar xfz '$(TMPFILE)'
-	rm '$(TMPFILE)'
+	rm '$(TMPFILE)' '$*/.nocache'
+	rm -rf '$*/_sharedDebian/'
 
