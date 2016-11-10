@@ -2,7 +2,7 @@ FROM debian:jessie
 
 WORKDIR /tmp/build/
 
-RUN apt-get update && apt-get -y install devscripts python-virtualenv python3-virtualenv git equivs python3-dev
+RUN apt-get update && apt-get -o Acquire::Retires=5 -y install devscripts python-virtualenv python3-virtualenv git equivs python3-dev
 
 # build and install dh-virtualenv
 # TODO use the prepackaged version
