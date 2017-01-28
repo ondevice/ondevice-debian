@@ -4,7 +4,6 @@ all:
 
 
 # explicitly state the targets for autocomplete to work
-build-ondevice: _build-ondevice
 build-ondevice-daemon: _build-ondevice-daemon
 
 _build-%:
