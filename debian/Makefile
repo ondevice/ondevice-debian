@@ -1,20 +1,15 @@
 DIRS=$(subst /,,$(wildcard */))
 
 all:
+	echo "Error: use one of the build-* targets" >&2
+	exit 1
 
+clean:
+	rm -rf target/
 
 # explicitly state the targets for autocomplete to work
-build-stretch-amd64: _build-stretch-amd64
-build-stretch-i386: _build-stretch-i386
-
-build-jessie-amd64: _build-jessie-amd64
-build-jessie-i386: _build-jessie-i386
-
-build-wheezy-amd64: _build-wheezy-amd64
-build-wheezy-i386: _build-wheezy-i386
-
-build-squeeze-amd64: _build-squeeze-amd64
-build-squeeze-i386: _build-squeeze-i386
+build-amd64: _build-amd64
+build-i386: _build-i386
 
 _build-%:
 	date > '$*/.nocache'
