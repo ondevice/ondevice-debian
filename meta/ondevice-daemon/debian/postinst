@@ -52,16 +52,17 @@ fi
 
 # create user and set up home
 getent group ondevice >/dev/null 2>&1 || \
-        addgroup --system --quiet ondevice
+        groupadd --system ondevice
 id ondevice >/dev/null 2>&1 || \
-	adduser --system --quiet --disabled-password \
-	--home /var/lib/ondevice/ --ingroup ondevice ondevice
+	useradd --system  --home /var/lib/ondevice/ \
+		--gid ondevice ondevice
 
 
 # setup files and permissions
-mkdir -p /var/run/ondevice/
+mkdir -p /var/lib/ondevice/
 mkdir -p /var/log/ondevice/
-chown -R ondevice:ondevice /var/lib/ondevice/ /var/run/ondevice/ /var/log/ondevice/
+mkdir -p /var/run/ondevice/
+chown -R ondevice:ondevice /var/lib/ondevice/ /var/log/ondevice/ /var/run/ondevice/
 
 #
 # set up credentials
