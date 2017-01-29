@@ -36,6 +36,19 @@ case "$1" in
     ;;
 esac
 
+# create user and set up home
+getent group ondevice >/dev/null 2>&1 || \
+        groupadd --system ondevice
+id ondevice >/dev/null 2>&1 || \
+	useradd --system  --home /var/lib/ondevice/ \
+		--gid ondevice ondevice
+
+# setup files and permissions
+mkdir -p /var/lib/ondevice/
+mkdir -p /var/log/ondevice/
+mkdir -p /var/run/ondevice/
+chown -R ondevice:ondevice /var/lib/ondevice/ /var/log/ondevice/ /var/run/ondevice/
+
 #
 # backwards compatibility fix (2017-01-28):
 #   update home directory and move old ondevice.conf
@@ -50,19 +63,6 @@ fi
 
 # //end fix
 
-# create user and set up home
-getent group ondevice >/dev/null 2>&1 || \
-        groupadd --system ondevice
-id ondevice >/dev/null 2>&1 || \
-	useradd --system  --home /var/lib/ondevice/ \
-		--gid ondevice ondevice
-
-
-# setup files and permissions
-mkdir -p /var/lib/ondevice/
-mkdir -p /var/log/ondevice/
-mkdir -p /var/run/ondevice/
-chown -R ondevice:ondevice /var/lib/ondevice/ /var/log/ondevice/ /var/run/ondevice/
 
 #
 # set up credentials
