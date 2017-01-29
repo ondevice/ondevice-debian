@@ -2,12 +2,14 @@ FROM debian:jessie
 
 WORKDIR /tmp/build/
 
-RUN apt-get update && apt-get -y install devscripts python-virtualenv python3-virtualenv git equivs python3-dev
+RUN apt-get update && apt-get -y install devscripts git
 
-# build the ondevice meta package
-WORKDIR /tmp/build/ondevice/
-COPY _sharedDebian/ /tmp/build/ondevice/debian
-COPY debian /tmp/build/ondevice/debian
+# build the ondevice-daemon meta package
+WORKDIR /tmp/build/ondevice-daemon/
+COPY Makefile /tmp/build/ondevice-daemon/
+COPY _sharedDebian/ /tmp/build/ondevice-daemon/debian
+COPY * /tmp/build/ondevice-daemon/
+COPY debian /tmp/build/ondevice-daemon/debian
 
 RUN dpkg-buildpackage -us -uc
 

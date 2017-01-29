@@ -36,15 +36,32 @@ case "$1" in
     ;;
 esac
 
+#
+# backwards compatibility fix (2017-01-28):
+#   update home directory and move old ondevice.conf
+if getent passwd ondevice|cut -d: -f6|grep -q /usr/share/ondevice; then
+	usermod --home /var/lib/ondevice/ ondevice
+fi
+if [ ! -e /var/lib/ondevice/ondevice.conf ]; then
+	if [ -e /usr/share/ondevice/ondevice.conf ]; then
+		mv /usr/share/ondevice/ondevice.conf /var/lib/ondevice/ondevice.conf
+	fi
+fi
+
+# //end fix
+
 # create user and set up home
 getent group ondevice >/dev/null 2>&1 || \
         addgroup --system --quiet ondevice
 id ondevice >/dev/null 2>&1 || \
 	adduser --system --quiet --disabled-password \
-	--home /usr/share/ondevice/ --ingroup ondevice ondevice
+	--home /var/lib/ondevice/ --ingroup ondevice ondevice
 
-chown -R ondevice:ondevice /usr/share/ondevice/
 
+# setup files and permissions
+mkdir -p /var/run/ondevice/
+mkdir -p /var/log/ondevice/
+chown -R ondevice:ondevice /var/lib/ondevice/ /var/run/ondevice/ /var/log/ondevice/
 
 #
 # set up credentials

@@ -18,8 +18,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="ondevice.io device service"
 NAME=ondevice
 DAEMON=/usr/bin/$NAME
-DAEMON_ARGS="daemon --configDir=/usr/share/ondevice/"
-PIDFILE=/usr/share/ondevice/$NAME.pid
+PIDFILE=/var/run/ondevice/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
 # Exit if the package is not installed
@@ -49,9 +48,8 @@ do_start()
 	#   2 if daemon could not be started
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null \
 		|| return 1
-	start-stop-daemon --start --quiet --pidfile $PIDFILE -c "$USERID" \
-		--exec /usr/bin/env -- "ONDEVICE_USER=$ONDEVICE_USER" "ONDEVICE_AUTH=$ONDEVICE_AUTH" \
-		$DAEMON $DAEMON_ARGS \
+	start-stop-daemon --start --background --quiet --chuid ondevice --pidfile $PIDFILE \
+		--exec /usr/lib/ondevice/ondevice-daemon.sh \
 		|| return 2
 	# Add code here, if necessary, that waits for the process to be ready
 	# to handle requests from services started subsequently which depend
