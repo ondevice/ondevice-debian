@@ -1,3 +1,9 @@
+ondevice (0.4.0) stable; urgency=low
+
+  * first golang based client
+
+ -- ondevice.io debian team <debian@ondevice.io>  Sun, 29 Jan 2017 23:12:29 +0200
+
 ondevice (0.3.1) stable; urgency=low
 
   * fixed some system-wide config issues
