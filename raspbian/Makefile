@@ -4,7 +4,7 @@ all:
 
 
 # explicitly state the targets for autocomplete to work
-build-jessie-armhf: _build-jessie-armhf
+build-armhf: _build-armhf
 
 
 _build-%:
