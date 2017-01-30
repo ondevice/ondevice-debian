@@ -9,7 +9,8 @@ Package: ondevice
 Architecture: any
 Pre-Depends: dpkg (>= 1.15), ${misc:Pre-Depends}
 Depends: ${python:Depends}, ${misc:Depends}
-Recommends: openssh-server, x11vnc
+Recommends: openssh-server
+Suggests: x11vnc
 Breaks: ondevice-python3.5 (<< 0.3.3), ondevice-python3.4 (<< 0.3.3), ondevice-python2.7 (<< 0.3.3), ondevice-python2.6 (<< 0.3.3)
 Replaces: ondevice-python3.5 (<< 0.3.3), ondevice-python3.4 (<< 0.3.3), ondevice-python2.7 (<< 0.3.3), ondevice-python2.6 (<< 0.3.3)
 Description: official ondevice.io client
