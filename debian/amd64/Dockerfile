@@ -19,9 +19,9 @@ ENV GOPATH=/tmp/build/
 RUN git clone https://github.com/ondevice/ondevice.git /tmp/build/src/github.com/ondevice/ondevice/
 WORKDIR /tmp/build/src/github.com/ondevice/ondevice/
 
-#RUN git checkout stable
+RUN git checkout stable
 COPY _sharedDebian/ /tmp/build/src/github.com/ondevice/ondevice/debian
-COPY debian /tmp/build/src/github.com/ondevice/ondevice/debian
+#COPY debian /tmp/build/src/github.com/ondevice/ondevice/debian
 RUN chown -R user:user /tmp/build/
 USER user
 
