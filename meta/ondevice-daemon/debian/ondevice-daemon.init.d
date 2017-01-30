@@ -42,6 +42,9 @@ USERID=ondevice
 #
 do_start()
 {
+	mkdir -p /var/run/ondevice/
+	chown ondevice:ondevice /var/run/ondevice/
+
 	# Return
 	#   0 if daemon has been started
 	#   1 if daemon was already running

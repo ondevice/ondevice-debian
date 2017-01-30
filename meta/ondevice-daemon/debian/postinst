@@ -46,8 +46,7 @@ id ondevice >/dev/null 2>&1 || \
 # setup files and permissions
 mkdir -p /var/lib/ondevice/
 mkdir -p /var/log/ondevice/
-mkdir -p /var/run/ondevice/
-chown -R ondevice:ondevice /var/lib/ondevice/ /var/log/ondevice/ /var/run/ondevice/
+chown -R ondevice:ondevice /var/lib/ondevice/ /var/log/ondevice/
 
 #
 # backwards compatibility fix (2017-01-28):
