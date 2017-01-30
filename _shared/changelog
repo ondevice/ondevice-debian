@@ -1,3 +1,18 @@
+ondevice (0.4.1) stable; urgency=low
+
+  * fixed an issue that prevented the environment to be preserved when running ondevice ssh/rsync
+  * x11vnc is now 'Suggested' instead of 'Recommended'
+  * added logrotate config for /var/log/ondevice/ondevice.log
+  * recreating /var/run/ondevice/ in the init script (was causing issues when rebooting)
+
+ -- ondevice.io debian team <debian@ondevice.io>  Sun, 30 Jan 2017 01:49:41 +0200
+
+ondevice (0.4.0deb1) stable; urgency=low
+
+  * fixed Broken and Replaces directives in debian/control (to allow for a smooth transition from 0.3.1)
+
+ -- ondevice.io debian team <debian@ondevice.io>  Sun, 30 Jan 2017 01:49:41 +0200
+
 ondevice (0.4.0) stable; urgency=low
 
   * first golang based client
