@@ -1,4 +1,6 @@
-/*/target/
+/*/src/
 /*/*/debian/changelog
 /*/*/_sharedDebian/
 *.swp
+.nocache
+target/
