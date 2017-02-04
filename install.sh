@@ -1,106 +1,62 @@
 #!/bin/bash
 #
-# installs the ondevice client on debian based systems
+# installs the ondevice client
+#
+# On Debian based systems, this'll use the repo.ondevice.io/debian/ package repository
+# everywhere else, it'll detect the OS and architecture and download the matching
+# `ondevice` binary.
+#
+# TODO: add RPM repository
+# TODO: add homebrew/macports support on MacOS
 #
 
 set -e
 
-DEBIAN_CODENAMES="squeeze wheezy jessie stretch"
-RASPBIAN_CODENAMES="jessie"
-UBUNTU_CODENAMES="lucid precise trusty xenial yakkety"
-
-# prints the first input path that exists (or exits 1 on error)
-_findCmd() {
-	while (( "$#" )); do
-		p="$(command -v "$1" 2>/dev/null)"
-		if [ -n "$p" ]; then
-			echo "$p"
-			return 0
-		fi
-		shift
-	done
-	return 1
+# return 0 if running on a debian based distribution
+_useApt() {
+	[ -e /etc/apt/sources.list ]
+	return $?
 }
 
-# prints the distribution name as listed in /etc/os-release
-_getDistro() {
-	grep '^ID=' /etc/os-release|cut -d= -f2	
-}
-
-# returns 0 if the given command was found
-_hasCmd() {
-	command -v "$1" &>/dev/null
-}
-
-# returns 0 if the given package name was found using apt-cache
-_aptHasPkg() {
-	[ "$(apt-cache pkgnames "$pkgName" |grep "^$pkgName$"|wc -l)" -eq 1 ]
-}
-
-
-_detectDistro() {
-	distro="$(_getDistro)"
-	if [ -n "$DISTRO" ]; then
-		return 0 # already detected
-	elif [ debian == "$distro" ]; then
-		DISTRO=debian
-	elif [ raspbian == "$distro" ]; then
-		DISTRO=raspbian
-	elif [ ubuntu == "$distro" ]; then
-		DISTRO=ubuntu
-	else
-		echo "Failed to detect distribution, aborting (you can set the DISTRO variable if you know what you're doing)" >&2
-		exit 1
+# sets the "$OS" variable
+_detectOS() {
+	if [ -n "$OS" ]; then
+		return 0
 	fi
 
-	echo "-- detected DISTRO: '$DISTRO'" >&2
-}
-
-_detectCodename() {
-	_detectDistro
-	if [ -n "$CODENAME" ]; then
-		return 0 # already known
-	elif [ ubuntu == "$DISTRO" ]; then
-		# we can use /etc/lsb-release
-		codename="$(grep DISTRIB_CODENAME= /etc/lsb-release|cut -d= -f2)"
-		if echo "$UBUNTU_CODENAMES"|tr ' ' '\n'|grep -q "^$codename$"; then
-			CODENAME="$codename"
-		else
-			echo "Unsupported Ubuntu codename: '$codename', aborting (set the CODENAME variable to override autodetect)" >&2
-			exit 1
-		fi
-	elif [ debian == "$DISTRO" ]; then
-		# fetch the distribution from /etc/apt/sources.list
-		for codename in $DEBIAN_CODENAMES; do
-			if grep '^deb ' /etc/apt/sources.list|cut '-d ' -f3|grep -q "^$codename$"; then
-				CODENAME="$codename"
-				break
-			fi
-		done
-	elif [ raspbian == "$DISTRO" ]; then
-		# fetch the distribution from /etc/apt/sources.list
-		for codename in $RASPBIAN_CODENAMES; do
-			if grep '^deb ' /etc/apt/sources.list|cut '-d ' -f3|grep -q "^$codename$"; then
-				CODENAME="$codename"
-				break
-			fi
-		done
+	if uname | grep -iq darwin ; then
+		OS=macos
+	elif uname | grep -iq linux ; then
+		OS=linux
 	else
-		echo "Failed to detect codename, aborting (set the CODENAME variable to override autodetect)" >2
+		echo ------------ >&2
+		echo "Couldn't detect your OS (got '$(uname)')" >&2
+		echo "You can specify one manually by setting the \$OS variable to 'macos' or 'linux'" >&2
+		echo ------------ >&2
 		exit 1
 	fi
-
-	echo "-- detected CODENAME: '$CODENAME'" >&2
 }
 
-#_detectArchitecture() {
-#	if [ -n "$ARCH" ]; then
-#		return 0 # already known
-#	fi
-#
-#	ARCH="$(dpkg --print-architecture)"
-#	echo "-- detected ARCHITECTURE: '$ARCH'" >&2
-#}
+# sets the "$ARCH" variable
+_detectArch() {
+	if [ -n "$ARCH" ]; then
+		return 0
+	fi
+
+	if uname -m | grep -iq x86_64; then
+		ARCH=amd64
+	elif uname -m | grep -iq i.86; then
+		ARCH=i386
+	else
+		echo ------------ >&2
+		echo "Couldn't detect your system architecture (got '$(uname -m)')" >&2
+		echo "You can specify one manually by setting the \$ARCH variable to 'i386', 'amd64' or 'armhf'" >&2
+		echo ------------ >&2
+		exit 1
+	fi
+}
+
+
 
 addAptKey() {
 	curl -sSL https://repo.ondevice.io/ondevice.key | apt-key add -
@@ -114,21 +70,35 @@ addAptRepo() {
 	fi
 
 	echo "-- writing '$REPO_FILE'" >&2
-	echo "deb http://repo.ondevice.io/$DISTRO $CODENAME main" > "$REPO_FILE"
+	echo "deb http://repo.ondevice.io/debian stable main" > "$REPO_FILE"
 }
 
-installOndevice() {
-	echo '-- installing ondevice package' >&2
+installDebian() {
+	addAptRepo
+	addAptKey
+
+	echo '-- installing ondevice .deb package' >&2
 	apt-get update || true
 	apt-get install -y ondevice
 }
 
-# fail early if we can't figure out the distro details
-_detectDistro
-_detectCodename
-#_detectArchitecture
+_detectOS
+_detectArch
 
-addAptKey
-addAptRepo
+# install on debian based systems
+if _useApt; then
+	installDebian
+	exit 0
+else
+	echo "-- installing ondevice on $OS - $ARCH"
 
-installOndevice
+	TGTDIR=/usr/local/bin
+	if [ ! -d "$TGTDIR" ]; then
+		echo "Couldn't find target directory: $TGTDIR" >&2
+		exit 1
+	fi
+	curl -fSL -o "$TGTDIR/ondevice" "https://repo.ondevice.io/client/stable/$OS/$ARCH/ondevice"
+	chmod +x "$TGTDIR/ondevice"
+fi
+
+
