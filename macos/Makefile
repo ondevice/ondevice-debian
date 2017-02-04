@@ -1,14 +1,19 @@
 
 
+all: build
+
 build: build-amd64 build-i386
 
 build-amd64: _build-amd64
 build-i386: _build-386
 
+
 _build-%:
-	[ -d src/ ] || git clone https://github.com/ondevice/ondevice/ src/
-	cd src/ && git pull && git checkout stable
-	cd src/; env GOOS=darwin GOARCH=$* go build -o ../target/$*/ondevice
+	[ -d src/github.com/ondevice/ondevice/ ] || git clone https://github.com/ondevice/ondevice/ src/github.com/ondevice/ondevice/
+	cd src/github.com/ondevice/ondevice/ && git pull && git checkout stable
+	GOPATH=$(PWD) make -C src/github.com/ondevice/ondevice deps
+	mkdir -p target/
+	cd src/github.com/ondevice/ondevice/; env GOOS=darwin GOARCH=$* GOPATH=$(PWD) go build -o ../../../../target/$*/ondevice
 
 clean:
-	rm -rf src/ target/
+	rm -rf src/ pkg/ target/
