@@ -1,4 +1,4 @@
-
+THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 all: build
 
@@ -11,9 +11,9 @@ build-i386: _build-386
 _build-%:
 	[ -d src/github.com/ondevice/ondevice/ ] || git clone https://github.com/ondevice/ondevice/ src/github.com/ondevice/ondevice/
 	cd src/github.com/ondevice/ondevice/ && git pull && git checkout stable
-	GOPATH=$(PWD) make -C src/github.com/ondevice/ondevice deps
+	GOPATH=$(THISDIR) make -C src/github.com/ondevice/ondevice deps
 	mkdir -p target/
-	cd src/github.com/ondevice/ondevice/; env GOOS=darwin GOARCH=$* GOPATH=$(PWD) go build -o ../../../../target/$*/ondevice
+	cd src/github.com/ondevice/ondevice/; env GOOS=darwin GOARCH=$* GOPATH=$(THISDIR) go build -o ../../../../target/$*/ondevice
 
 clean:
 	rm -rf src/ pkg/ target/
