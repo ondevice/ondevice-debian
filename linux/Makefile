@@ -5,6 +5,7 @@ all: build
 build: build-amd64 build-i386
 
 build-amd64: _build-amd64
+build-armhf: _build-arm
 build-i386: _build-386
 
 

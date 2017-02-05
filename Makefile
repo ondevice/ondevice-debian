@@ -3,6 +3,12 @@ all: clean build
 
 build: build-deb build-linux build-macos
 
+build_arm:
+	make -C deb build-armhf
+	make -C linux build-armhf
+
+	mv deb/target/*/*.deb target/deb/
+	mv linux/target/arm target/linux/arm
 
 build-deb:
 	make -C deb/ build
