@@ -1,3 +1,12 @@
+ondevice (0.4.2) stable; urgency=low
+
+  * fixed issue with cleanly closing connections
+  * printing byte counts when connections close
+  * improved certain error messages
+  * some other minor improvements
+
+ -- ondevice.io debian team <debian@ondevice.io>  Sat, 04 Jan 2017 18:31:18 +0200
+
 ondevice (0.4.1) stable; urgency=low
 
   * fixed an issue that prevented the environment to be preserved when running ondevice ssh/rsync
