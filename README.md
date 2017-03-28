@@ -1,13 +1,13 @@
 Packaging scripts for the ondevice client
 ====================
 
-This repository contains the official build-scripts for binaries and packages published at https://repo.ondevice.io/
+This repository contains all the packaging scripts for the `ondevice` commandline interface.  
+Most of the builds are done inside [docker][docker].
 
-Debian packages (`.deb`) are built inside docker containers, raw binaries using go directly.
+If you have trouble with one of the binary packages, file an issue [here][gh-issues].
 
-The easiest way to install the packages is `install_deb.sh`:
+If you want to provide additional packaging scripts for your OS/distro, please file a pull request.
 
-    curl -sSL https://repo.ondevice.io/install_deb.sh | sudo bash -e
 
 Install scripts
 ---------------
@@ -19,7 +19,7 @@ client.
 curl -sSL https://repo.ondevice.io/install.sh | sudo bash -
 ```
 
-So far it supports Linux (amd64, armhf and i386) and MacOS (amd64 and i386)
+
 
 
 Debian repository
@@ -35,7 +35,7 @@ Alternatively, you can manually set things up using:
 
 ```bash
 echo "deb http://repo.ondevice.io/debian stable main" | sudo tee /etc/apt/sources.list.d/ondevice.list
-curl https://repo.ondevice.io/ondevice.key | sudo apt-key add -
+curl https://repo.ondevice.io/repo.key | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install ondevice
 
@@ -44,3 +44,9 @@ sudo apt-get install ondevice-daemon
 ```
 
 
+Note: Back when we used the python-based prototype client, we had distinct repositories for a lot of different distributions/releases (we needed those since each `.deb` was only compatible to a certain arch+python-release combo).  
+These will be kept up to date for now, but will eventually be deactivated in favor of the `stable` repository.
+
+
+[docker]: https://docker.com/
+[gh-issues]: https://github.com/ondevice/ondevice-packaging/issues

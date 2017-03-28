@@ -7,6 +7,7 @@ build_arm:
 	make -C deb build-armhf
 	make -C linux build-armhf
 
+	mkdir -p target/deb/ target/linux/arm/
 	mv deb/target/*/*.deb target/deb/
 	mv linux/target/arm target/linux/arm
 
@@ -19,6 +20,7 @@ build-linux:
 	make -C linux build
 	mkdir -p target/linux/
 	mv linux/target/386 target/linux/i386
+	mv linux/target/arm target/linux/
 	mv linux/target/amd64 target/linux/
 
 build-macos:
