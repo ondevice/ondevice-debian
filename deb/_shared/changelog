@@ -1,3 +1,10 @@
+ondevice (0.4.3) stable; urgency=low
+
+  * added ONDEVICE_LOG variable support (to set the log level)
+  * fixed issues with closing tunnel sessions
+
+ -- ondevice.io debian team <debian@ondevice.io>  Tue, 14 Feb 2017 12:08:04 +0200
+
 ondevice (0.4.2) stable; urgency=low
 
   * fixed issue with cleanly closing connections
@@ -5,7 +12,7 @@ ondevice (0.4.2) stable; urgency=low
   * improved certain error messages
   * some other minor improvements
 
- -- ondevice.io debian team <debian@ondevice.io>  Sat, 04 Jan 2017 18:31:18 +0200
+ -- ondevice.io debian team <debian@ondevice.io>  Sat, 04 Feb 2017 18:31:18 +0200
 
 ondevice (0.4.1) stable; urgency=low
 
