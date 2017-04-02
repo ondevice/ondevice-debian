@@ -26,7 +26,6 @@ build-macos:
 	# builds the raw binaries (i.e. everything but the distro-specific packages)
 	make -C macos build
 	mkdir -p target/linux/ target/macos/
-	mv macos/target/i386 target/macos/i386
 	mv macos/target/amd64 target/macos/
 
 

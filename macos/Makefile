@@ -2,7 +2,7 @@ THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 all: build
 
-build: build-amd64 build-i386
+build: build-amd64
 
 build-amd64: _build-amd64
 build-i386: _build-386
