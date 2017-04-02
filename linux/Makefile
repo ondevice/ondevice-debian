@@ -2,19 +2,21 @@ THISDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 all: build
 
-build: build-amd64 build-armhf build-i386
+build: build-amd64 build-i386
 
 build-amd64: _build-amd64
 build-armhf: _build-arm
-build-i386: _build-386
-
+build-i386: _build-i386
 
 _build-%:
-	[ -d src/github.com/ondevice/ondevice/ ] || git clone https://github.com/ondevice/ondevice/ src/github.com/ondevice/ondevice/
-	cd src/github.com/ondevice/ondevice/ && git pull && git checkout stable
-	GOPATH=$(THISDIR) make -C src/github.com/ondevice/ondevice deps
-	mkdir -p target/
-	cd src/github.com/ondevice/ondevice/; env GOOS=linux GOARCH=$* GOPATH=$(THISDIR) go build -o ../../../../target/$*/ondevice
+	date > '$*/.nocache'
+	cd '$*'; docker build -t 'ondevice/build-linux-$*' .
+	mkdir -p 'target/$*'
+
+	$(eval TMPFILE := $(shell mktemp))
+	id=$$(docker create 'ondevice/build-linux-$*' /bin/false); docker cp $$id:/tmp/build.tgz '$(TMPFILE)'; docker rm -v "$$id"
+	cd 'target/$*'; tar xfz '$(TMPFILE)'
+	rm '$(TMPFILE)' '$*/.nocache'
 
 clean:
-	rm -rf src/ pkg/ target/
+	rm -rf target/
