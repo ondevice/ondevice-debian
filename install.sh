@@ -47,6 +47,8 @@ _detectArch() {
 		ARCH=amd64
 	elif uname -m | grep -iq i.86; then
 		ARCH=i386
+	elif uname -m | grep -iq armv6l; then
+		ARCH=armhf
 	else
 		echo ------------ >&2
 		echo "Couldn't detect your system architecture (got '$(uname -m)')" >&2
