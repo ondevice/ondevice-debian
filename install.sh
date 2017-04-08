@@ -11,12 +11,6 @@
 
 set -e
 
-# return 0 if running on a debian based distribution
-_useApt() {
-	[ -e /etc/apt/sources.list ]
-	return $?
-}
-
 # sets the "$OS" variable
 _detectOS() {
 	if [ -n "$OS" ]; then
@@ -91,10 +85,9 @@ installHomebrew() {
 _detectOS
 _detectArch
 
-# install on debian based systems
-if _useApt; then
+if [ -e /etc/apt/sources.list ]; then
+	# install on debian based systems
 	installDebian
-	exit 0
 elif [ "$OS" == macos -a -x /usr/local/bin/brew ]; then
 	installHomebrew
 else
