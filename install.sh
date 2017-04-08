@@ -7,7 +7,6 @@
 # `ondevice` binary.
 #
 # TODO: add RPM repository
-# TODO: add homebrew/macports support on MacOS
 #
 
 set -e
@@ -84,6 +83,11 @@ installDebian() {
 	apt-get install -y ondevice
 }
 
+installHomebrew() {
+	echo '-- install ondevice using macOS homebrew' >&2
+	brew install ondevice/ondevice/ondevice
+}
+
 _detectOS
 _detectArch
 
@@ -91,6 +95,8 @@ _detectArch
 if _useApt; then
 	installDebian
 	exit 0
+elif [ "$OS" == macos -a -x /usr/local/bin/brew ]; then
+	installHomebrew
 else
 	echo "-- installing ondevice on $OS - $ARCH"
 
