@@ -1,3 +1,13 @@
+<hr />
+
+# Deprecation Notice
+
+The scripts in this package have been moved to the main https://github.com/ondevice/ondevice/ repository (to simplify packaging).  
+The install.sh got its own repository at https://github.com/ondevice/get.ondevice.io/
+
+This repo will soon be removed.
+<hr />
+
 Packaging scripts for the ondevice client
 ====================
 
